@@ -2,6 +2,7 @@ import psycopg2
 from flask import Flask, redirect, session, url_for, render_template, request
 
 app = Flask(__name__)
+app.secret_key = "secret"
 
 @app.route("/")
 def home():
@@ -11,6 +12,7 @@ def home():
 def login():
     if request.method == "POST":
         inputForQuery = request.form["nm"]
+
         my_hostname = "localhost"
         my_database = "postgres"
         my_username = "postgres"
@@ -29,11 +31,14 @@ def login():
                 port = my_port)
 
             cursor = conn.cursor()
-            resultQuery = cursor.execute("SELECT * FROM albums WHERE band = '{0}'" .format(inputForQuery)) 
-         
-            print(cursor.fetchall()) 
+            cursor.execute("SELECT * FROM albums WHERE band = '{0}'" .format(inputForQuery)) 
+            
+            resultQuery = cursor.fetchall()
+            print( resultQuery) 
+           
+            session['outputQuery'] = resultQuery
+            
             conn.commit()
-
             
         except Exception as error:
             print(error)
@@ -42,15 +47,15 @@ def login():
                 conn.close()
                 cursor.close()
                 
-        session['outputQuery'] = resultQuery
-        return redirect(url_for("user", output=inputForQuery)) #"user"-> nazwa funkcji
+        return redirect(url_for("user")) 
     else:
        return render_template("login.html")
 
-@app.route("/<output>")
-def user(output):
-    outputQuery = session.get('outputQuery') #none
-    return f"<h1>{outputQuery}</h1>"
+@app.route("/output")
+def user():
+    if "outputQuery" in session:
+        outputQuery = session['outputQuery'] 
+        return f"<h1>{outputQuery}</h1>"
 
 if __name__ == "__main__":
     app.secret_key = 'super secret key'
