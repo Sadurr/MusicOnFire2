@@ -2,31 +2,21 @@ h1 {
     text-align:center;
 }
 
-#inputText {
-    display: inline-block;
-    margin-left: 120PX;
-    width: 70%;
-    height: 30px;
-}
-
-.addButton {
-    width: 15px;
-    height: 20px;
-    margin-left: 90%;
-    margin-top: 30%;
-}
-
 body {
   background-color: #99979b;
-  margin: 0;
 }
 
-.searchButton {
-
-    height: 40px;
+.inputOptions{
+    margin: auto;
+    text-align: center;
 }
 
-.carousel-item{
-    width: 37%;
-    margin-left: 30%;
+#inputText{
+    width: 70%;
+    height: 25px;
+    margin: auto;
+}
+
+#inputButton{
+    height: 25px;
 }

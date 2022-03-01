@@ -4,15 +4,22 @@ from flask import Flask, redirect, session, url_for, render_template, request
 app = Flask(__name__)
 app.secret_key = "secret"
 
-@app.route("/")
+@app.route("/", methods=["POST", "GET"])
 def home():
+    if request.method == "POST":
+        inputType = request.form["band"]
+        session["inputType"] = inputType
+
     return render_template("index.html")
 
 @app.route("/login", methods=["POST", "GET"])
 def login():
+    if "inputType" in session:
+        inputType = session['inputType'] #not working
+
     if request.method == "POST":
         inputForQuery = request.form["nm"]
-
+        
         my_hostname = "localhost"
         my_database = "postgres"
         my_username = "postgres"
@@ -31,7 +38,7 @@ def login():
                 port = my_port)
 
             cursor = conn.cursor()
-            cursor.execute("SELECT * FROM albums WHERE band = '{0}'" .format(inputForQuery)) 
+            cursor.execute("SELECT * FROM albums WHERE '{}' = '{}'" .format(inputType, inputForQuery)) 
             
             resultQuery = cursor.fetchall()
             print( resultQuery) 
