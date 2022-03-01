@@ -38,7 +38,7 @@ def login():
                 port = my_port)
 
             cursor = conn.cursor()
-            cursor.execute("SELECT * FROM albums WHERE '{}' = '{}'" .format(inputType, inputForQuery)) 
+            cursor.execute("SELECT * FROM albums WHERE band = '{}'" .format( inputForQuery)) 
             
             resultQuery = cursor.fetchall()
             print( resultQuery) 
