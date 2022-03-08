@@ -14,8 +14,16 @@
     <h1>Music On Fire</h1>
 
     <div class="inputOptions">
+        
         <form action="#" method="post">
-            <p><input type="text" name="nm" placeholder="Search for the best music" id="inputText"/></p>
+            <label for="inputType">Search by:</label> 
+            <select name="inputType" id="inputType" name="inputType">
+                <option value="band">band</option>
+                <option value="genre">genre</option>
+                <option value="description">description</option>
+             </select>
+
+            <p><input type="text" name="inputText" placeholder="Search for the best music" id="inputText"/></p>
             <p><input type="submit" value="submit" id="inputButton"/></p>
         </form>
     </div>

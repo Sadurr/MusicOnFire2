@@ -6,20 +6,16 @@ app.secret_key = "secret"
 
 @app.route("/", methods=["POST", "GET"])
 def home():
-    if request.method == "POST":
-        inputType = request.form["band"]
-        session["inputType"] = inputType
 
     return render_template("index.html")
 
 @app.route("/login", methods=["POST", "GET"])
 def login():
-    if "inputType" in session:
-        inputType = session['inputType'] #not working
 
     if request.method == "POST":
-        inputForQuery = request.form["nm"]
-        
+        inputForQuery = request.form["inputText"]
+        inputType = request.form["inputType"]
+
         my_hostname = "localhost"
         my_database = "postgres"
         my_username = "postgres"
@@ -38,7 +34,14 @@ def login():
                 port = my_port)
 
             cursor = conn.cursor()
-            cursor.execute("SELECT * FROM albums WHERE band = '{}'" .format( inputForQuery)) 
+
+            if inputType == 'band':
+                cursor.execute("SELECT album FROM albums WHERE band = '{}'" .format(inputForQuery))
+            elif inputType == 'genre':
+                cursor.execute("SELECT album FROM albums WHERE genre = '{}'" .format(inputForQuery))
+            elif inputType == 'description':
+                cursor.execute("SELECT album FROM albums WHERE description = '{}'" .format(inputForQuery))
+
             
             resultQuery = cursor.fetchall()
             print( resultQuery) 
@@ -65,5 +68,4 @@ def user():
         return f"<h1>{outputQuery}</h1>"
 
 if __name__ == "__main__":
-    app.secret_key = 'super secret key'
     app.run(debug=True)
