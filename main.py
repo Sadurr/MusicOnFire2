@@ -4,10 +4,12 @@ from flask import Flask, redirect, session, url_for, render_template, request
 app = Flask(__name__)
 app.secret_key = "secret"
 
+
 @app.route("/", methods=["POST", "GET"])
 def home():
 
     return render_template("index.html")
+
 
 @app.route("/login", methods=["POST", "GET"])
 def login():
@@ -27,45 +29,51 @@ def login():
 
         try:
             conn = psycopg2.connect(
-                host = my_hostname,
-                dbname = my_database,
-                user = my_username,
-                password = my_password, 
-                port = my_port)
+                host=my_hostname,
+                dbname=my_database,
+                user=my_username,
+                password=my_password,
+                port=my_port)
 
             cursor = conn.cursor()
 
             if inputType == 'band':
-                cursor.execute("SELECT album FROM albums WHERE band = '{}'" .format(inputForQuery))
+                cursor.execute(
+                    "SELECT album FROM albums WHERE band = '{}'" .format(inputForQuery))
+                # recommended =
             elif inputType == 'genre':
-                cursor.execute("SELECT album FROM albums WHERE genre = '{}'" .format(inputForQuery))
+                cursor.execute(
+                    "SELECT album FROM albums WHERE genre = '{}'" .format(inputForQuery))
             elif inputType == 'description':
-                cursor.execute("SELECT album FROM albums WHERE description = '{}'" .format(inputForQuery))
+                cursor.execute(
+                    "SELECT album FROM albums WHERE description = '{}'" .format(inputForQuery))
 
-            
             resultQuery = cursor.fetchall()
-            print( resultQuery) 
-           
+            print(resultQuery)
+
             session['outputQuery'] = resultQuery
-            
+            # session['inputType'] = inputType
+
             conn.commit()
-            
+
         except Exception as error:
             print(error)
         finally:
             if conn is not None and cursor is not None:
                 conn.close()
                 cursor.close()
-                
-        return redirect(url_for("user")) 
+
+        return redirect(url_for("output"))
     else:
-       return render_template("login.html")
+        return render_template("login.html")
+
 
 @app.route("/output")
-def user():
+def output(): 
     if "outputQuery" in session:
-        outputQuery = session['outputQuery'] 
+        outputQuery = session['outputQuery']
         return f"<h1>{outputQuery}</h1>"
+
 
 if __name__ == "__main__":
     app.run(debug=True)

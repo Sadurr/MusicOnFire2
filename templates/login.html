@@ -14,7 +14,6 @@
     <h1>Music On Fire</h1>
 
     <div class="inputOptions">
-        
         <form action="#" method="post">
             <label for="inputType">Search by:</label> 
             <select name="inputType" id="inputType" name="inputType">
@@ -28,5 +27,31 @@
         </form>
     </div>
     
+    <div id="addButton" class="addButton"></div>  
+      <button id="addModalButton" title="Add missing music">Add</button>
+    </div>
+
+<div id="modal" class="modal">
+    
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <div id="labelForText">
+        <label for="modalBandText">Band:</label>
+        <input type="text" name="modalBandText" placeholder="Add missing band" id="modalBandText"/>
+    </div>
+    <div id="labelForText">
+        <label for="modalAlbumText">Album:</label>
+        <input type="text" name="modalAlbumText" placeholder="Add missing album" id="modalAlbumText"/>
+    </div>
+    <div id="labelForText">
+        <label for="modalDescriptionText">Description:</label>
+        <input type="text" name="modalDescriptionText" placeholder="Add missing description" id="modalDescriptionText"/>
+    </div>
+    <p><input type="submit" value="submit" id="modalButton"/></p>
+  </div>
+</div>
+
+<script src="static/index.js"></script>
+
 </body>
 </html>
