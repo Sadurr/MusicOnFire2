@@ -1,3 +1,4 @@
+import re
 import psycopg2
 from flask import Flask, redirect, session, url_for, render_template, request
 
@@ -40,7 +41,6 @@ def login():
             if inputType == 'band':
                 cursor.execute(
                     "SELECT album FROM albums WHERE band = '{}'" .format(inputForQuery))
-                # recommended =
             elif inputType == 'genre':
                 cursor.execute(
                     "SELECT album FROM albums WHERE genre = '{}'" .format(inputForQuery))
@@ -49,7 +49,8 @@ def login():
                     "SELECT album FROM albums WHERE description = '{}'" .format(inputForQuery))
 
             resultQuery = cursor.fetchall()
-            print(resultQuery)
+            if resultQuery == []:
+                return '<h1>There are no results. Try again! </h1>'
 
             session['outputQuery'] = resultQuery
             # session['inputType'] = inputType
