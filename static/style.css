@@ -74,3 +74,17 @@ body {
 #modalDescriptionText{
     margin-left: 4%;
 }
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  background-color: rgb(179, 177, 177);
+}
+
+th, td {
+  padding: 15px;
+}
+
+th {
+  text-align: left;
+}
